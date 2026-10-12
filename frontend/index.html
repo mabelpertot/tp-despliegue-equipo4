@@ -131,7 +131,7 @@
 </head>
 <body>
 
-    <div class="container">
+    < class="container">
         <h1>Despliegue y Observabilidad</h1>
         <div class="subtitle">Equipo Nº 4 🚀</div>
 
@@ -147,13 +147,13 @@
         <div id="response" class="response-box">Esperando acción...</div>
 
         <footer>
-            Cloud PaaS (Render) + Frontend (Netlify) + Observabilidad (Sentry)
+            Cloud PaaS (Render) + Frontend (GitHub Pages) + Observabilidad (Sentry)
+            Integrantes: <strong>Pertot Mabel, Ramírez Erik, Ramírez Sebastián</strong>
         </footer>
     </div>
 
     <script>
-        const backendUrl = "https://puntotecno.onrender.com"; // Tu URL de Render
-
+        const backendUrl = "https://puntotecno.onrender.com"; 
         async function verificarApi() {
             const responseBox = document.getElementById("response");
             responseBox.style.display = "block";
@@ -169,7 +169,6 @@
         }
 
         function provocarError() {
-            // Abre el endpoint de Sentry en una pestaña nueva o redirige para mostrar la página de error
             window.open(backendUrl + "/debug-sentry", "_blank");
             const responseBox = document.getElementById("response");
             responseBox.style.display = "block";
