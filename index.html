@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Despliegue y Observabilidad - Equipo Nº 4</title>
+    <!-- Favicon de cohete -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --danger: #dc2626;
+            --danger-hover: #b91c1c;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            max-width: 480px;
+            width: 90%;
+            border: 1px solid #e2e8f0;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        .subtitle {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 24px;
+        }
+
+        .status-box {
+            background: #f1f5f9;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-online {
+            color: #16a34a;
+            font-weight: 700;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .btn-api {
+            background-color: var(--primary);
+        }
+        .btn-api:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-error {
+            background-color: var(--danger);
+        }
+        .btn-error:hover {
+            background-color: var(--danger-hover);
+        }
+
+        .response-box {
+            background: #0f172a;
+            color: #38bdf8;
+            font-family: monospace;
+            font-size: 13px;
+            padding: 12px;
+            border-radius: 8px;
+            min-height: 40px;
+            text-align: left;
+            word-break: break-all;
+            display: none;
+        }
+
+        footer {
+            margin-top: 24px;
+            font-size: 12px;
+            color: var(--text-muted);
+            border-top: 1px solid #e2e8f0;
+            padding-top: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Despliegue y Observabilidad</h1>
+        <div class="subtitle">Equipo Nº 4 🚀</div>
+
+        <div class="status-box">
+            Estado del Backend: <span id="status-text" class="status-online">ONLINE ✅</span>
+        </div>
+
+        <div class="button-group">
+            <button class="btn-api" onclick="verificarApi()">Verificar Estado de API</button>
+            <button class="btn-error" onclick="provocarError()">Provocar Error (Sentry)</button>
+        </div>
+
+        <div id="response" class="response-box">Esperando acción...</div>
+
+        <footer>
+            Cloud PaaS (Render) + Frontend (Netlify) + Observabilidad (Sentry)
+        </footer>
+    </div>
+
+    <script>
+        const backendUrl = "https://puntotecno.onrender.com"; // Tu URL de Render
+
+        async function verificarApi() {
+            const responseBox = document.getElementById("response");
+            responseBox.style.display = "block";
+            responseBox.innerText = "Consultando API en Render...";
+            
+            try {
+                const res = await fetch(backendUrl);
+                const data = await res.json();
+                responseBox.innerText = JSON.stringify(data, null, 2);
+            } catch (error) {
+                responseBox.innerText = "Error de conexión con el servidor.";
+            }
+        }
+
+        function provocarError() {
+            // Abre el endpoint de Sentry en una pestaña nueva o redirige para mostrar la página de error
+            window.open(backendUrl + "/debug-sentry", "_blank");
+            const responseBox = document.getElementById("response");
+            responseBox.style.display = "block";
+            responseBox.innerText = "⚠️ Petición de error enviada. ¡Revisa el Dashboard de Sentry!";
+        }
+    </script>
+</body>
+</html>
