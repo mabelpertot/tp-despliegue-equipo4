@@ -169,11 +169,20 @@
             }
         }
 
-        function provocarError() {
-            window.open(backendUrl + "/sentry-debug", "_blank");
+async function provocarError() {
             const responseBox = document.getElementById("response");
             responseBox.style.display = "block";
-            responseBox.innerText = "⚠️ Petición de error enviada. ¡Revisa el Dashboard de Sentry!";
+            responseBox.innerText = "Enviando petición de error a Sentry...";
+            
+            try {
+                // Hacemos la petición al backend para que dispare el error hacia Sentry
+                const res = await fetch(backendUrl + "/sentry-debug");
+                const data = await res.json();
+                responseBox.innerText = JSON.stringify(data, null, 2);
+            } catch (error) {
+                // Si el servidor responde con error 500, capturamos el error y mostramos un mensaje.
+                responseBox.innerText = "⚠️ ¡Error provocado y capturado con éxito en Sentry!\n(Revisa tu Dashboard de Sentry para ver el reporte detallado).";
+            }
         }
     </script>
 </body>
