@@ -170,7 +170,7 @@
         }
 
         function provocarError() {
-            window.open(backendUrl + "/debug-sentry", "_blank");
+            window.open(backendUrl + "/sentry-debug", "_blank");
             const responseBox = document.getElementById("response");
             responseBox.style.display = "block";
             responseBox.innerText = "⚠️ Petición de error enviada. ¡Revisa el Dashboard de Sentry!";
