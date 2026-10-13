@@ -1,6 +1,6 @@
 import os
 import sentry_sdk
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 # 1. Lectura de variables de entorno desde PaaS (Render)
@@ -40,6 +40,15 @@ def read_root():
 # Endpoint obligatorio para probar Sentry 
 @app.get("/sentry-debug")
 def trigger_error():
-    # Forzamos un error no controlado de división por cero
-    division_by_zero = 1 / 0
-    return division_by_zero
+    try:
+        # Forzamos el error que Sentry va a capturar
+        division_by_zero = 1 / 0
+    except Exception as e:
+        # Sentry captura el error explícitamente
+        sentry_sdk.capture_exception(e)
+        # Devolvemos una respuesta JSON 
+        return {
+            "estado": "error_capturado",
+            "mensaje": "⚠️ Se ha provocado un error de prueba de forma controlada.",
+            "detalle": "El incidente fue registrado exitosamente en Sentry con éxito para la demo del Equipo Nº 4."
+        }
