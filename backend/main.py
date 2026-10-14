@@ -22,7 +22,7 @@ app = FastAPI(
 # 3. Configuración de CORS para permitir peticiones desde el Frontend 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  con Netlify
+    allow_origins=["*"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
